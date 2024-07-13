@@ -13,9 +13,12 @@
     "test:integration": "npm test -- -c jest-integration-config.js"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.9.0",
     "next": "14.2.3",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-hook-form": "^7.52.1",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.2",
