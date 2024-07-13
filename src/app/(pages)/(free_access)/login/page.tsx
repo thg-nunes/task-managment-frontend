@@ -1,5 +1,8 @@
-import type { Metadata } from 'next'
 import Image from 'next/image'
+import type { Metadata } from 'next'
+
+import { Input, Label, RootInput } from '@components/input'
+import { Button } from '@components/button'
 
 export const metadata: Metadata = {
   title: 'Login',
@@ -7,9 +10,21 @@ export const metadata: Metadata = {
 }
 
 export default function SignIn() {
+  async function handleSignIn() {}
+
   return (
     <div className="grid grid-cols-2">
-      <section></section>
+      <form className="grid h-max grid-rows-3 gap-3" onSubmit={handleSignIn}>
+        <RootInput>
+          <Label text="E-mail" htmlFor="email" />
+          <Input type="email" id="email" placeholder="e-mail" />
+        </RootInput>
+        <RootInput>
+          <Label text="Senha" htmlFor="password" />
+          <Input type="password" id="password" placeholder="senha" />
+        </RootInput>
+        <Button type="submit">Entrar</Button>
+      </form>
       <section className="grid h-screen w-full rounded-l-full bg-violet-500 md:grid-cols-2 md:grid-rows-4">
         <Image
           width={232}
