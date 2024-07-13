@@ -14,10 +14,10 @@ export const Input = ({ errorMessage = '', ...rest }: InputProps): JSX.Element =
   return (
     <>
       <input
-        className="mb-3 rounded-sm border-2 border-transparent bg-gray-600/40 p-2 outline-none placeholder:text-gray-300 focus:border-2 focus:border-gray-500"
+        className="mb-1 rounded-sm border-2 border-transparent bg-gray-600/40 p-2 outline-none placeholder:text-gray-300 focus:border-2 focus:border-gray-500"
         {...rest}
       />
-      {errorMessage && <span>{errorMessage}</span>}
+      {errorMessage && <span className="text-sm text-red-300">{errorMessage}</span>}
     </>
   )
 }
