@@ -1,5 +1,7 @@
 'use client'
 import * as yup from 'yup'
+import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
@@ -19,10 +21,10 @@ const schema = yup.object().shape({
 })
 
 /**
- * @function SignInForm -
- * @param {} SignInForm. -
+ * @function SignInForm - componente responável por conter o formulário de login
  */
 export const SignInForm = (): JSX.Element => {
+  const { push } = useRouter()
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -32,11 +34,24 @@ export const SignInForm = (): JSX.Element => {
   })
 
   async function handleSignIn(data: { email: string; password: string }) {
-    console.log(data)
+    const response = await signIn('credentials', { redirect: false }, { ...data })
+    if (response && response.error) {
+      // exibir toast com causa do erro
+    }
+
+    if (response?.ok && response.status === 200) {
+      // redirecionar para a página home, fazer uma requisição qualquer nessa página para um resolver privado e verificar se vai ser enviado o token e se vai funcionar a verificação de token server
+      // para caso de token expirado, refazer a validação no client
+    }
+    // NO SERVER AO FAZER UMA REQ PRA ROTA PRIVADA, VERIFICAR SE TEM O TOKEN QUE O NEXT-AUTH ENVIA, SE TIVER
+    // LIBERA ACESSO, SE NAO BLOQUEIA ACESSO E RETORNA ERRO
   }
 
   return (
-    <form className="grid h-max grid-rows-3 gap-3" onSubmit={handleSubmit(handleSignIn)}>
+    <form
+      className="grid h-max w-1/2 grid-rows-3 gap-3"
+      onSubmit={handleSubmit(handleSignIn)}
+    >
       <Controller
         name="email"
         control={control}
@@ -73,7 +88,12 @@ export const SignInForm = (): JSX.Element => {
           </RootInput>
         )}
       />
-      <Button type="submit">Entrar</Button>
+      <Button type="submit" className="mt-3 flex justify-center">
+        Entrar
+      </Button>
+      <Button type="button" btnStyle="secondary" onClick={() => push('/cadastro')}>
+        Cadastro
+      </Button>
     </form>
   )
 }
