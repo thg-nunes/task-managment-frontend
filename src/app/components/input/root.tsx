@@ -11,5 +11,5 @@ type RootInputProps = {
  * react válido
  */
 export const RootInput = ({ children }: RootInputProps): JSX.Element => {
-  return <div className="flex max-w-80 flex-col gap-1">{children}</div>
+  return <div className="flex max-w-[475.75px] flex-col gap-1">{children}</div>
 }

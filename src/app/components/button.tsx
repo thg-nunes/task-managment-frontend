@@ -14,9 +14,9 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
  */
 const BUTTON_STYLES = {
   primary:
-    'h-max max-w-80 rounded-sm bg-violet-500 hover:bg-violet-500/90 px-2 py-3 text-lg font-semibold transition-all duration-150',
+    'h-max max-w-[475.75px] rounded-sm bg-violet-500 hover:bg-violet-500/90 px-2 py-3 text-lg font-semibold transition-all duration-150',
   secondary:
-    'h-max max-w-80 rounded-sm bg-zinc-500 hover:bg-zinc-500/90 px-2 py-3 text-lg font-semibold transition-all duration-150',
+    'h-max max-w-[475.75px] rounded-sm bg-zinc-500 hover:bg-zinc-500/90 px-2 py-3 text-lg font-semibold transition-all duration-150',
 }
 
 /**
