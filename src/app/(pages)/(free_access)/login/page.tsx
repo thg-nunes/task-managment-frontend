@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import type { Metadata } from 'next'
+import { FcParallelTasks } from 'react-icons/fc'
 
 import { SignInForm } from './form'
 
@@ -11,7 +12,14 @@ export const metadata: Metadata = {
 export default function SignIn() {
   return (
     <div className="grid grid-cols-2">
-      <SignInForm />
+      <section className="flex flex-col items-center justify-center space-y-10">
+        <div className="flex items-center gap-3">
+          <FcParallelTasks className="size-14" />
+          <p className="font-semibold md:text-xl">Task-Mgm</p>
+        </div>
+        <h2 className="font-semibold md:text-2xl">Bem vindo de volta</h2>
+        <SignInForm />
+      </section>
       <section className="grid h-screen w-full rounded-l-full bg-violet-500 md:grid-cols-2 md:grid-rows-4">
         <Image
           width={232}
