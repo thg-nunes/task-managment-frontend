@@ -1,11 +1,16 @@
 'use client'
 import * as yup from 'yup'
 import { useRouter } from 'next/navigation'
+import { useMutation } from '@apollo/client'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
+import { renderToast } from '@utils/toast'
+import { GQL_REGISTER } from '@graphql/mutations/user'
+
 import { Button } from '@components/button'
 import { Input, Label, RootInput } from '@components/input'
+import { signIn } from 'next-auth/react'
 
 const schema = yup.object().shape({
   username: yup.string().trim().required('O nome de usuário é obrigatório'),
@@ -35,7 +40,7 @@ const schema = yup.object().shape({
  * @function SignUpForm - componente responável por conter o formulário de cadastro
  */
 export const SignUpForm = (): JSX.Element => {
-  const { back } = useRouter()
+  const { back, push } = useRouter()
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -46,13 +51,36 @@ export const SignUpForm = (): JSX.Element => {
     },
   })
 
+  async function handleSignIn(data: { email: string; password: string }) {
+    const response = await signIn('credentials', { redirect: false }, { ...data })
+    if (response && response.error) {
+      renderToast('error', response.error)
+    }
+
+    if (response?.ok && response.status === 200) {
+      push('/home')
+    }
+  }
+
+  const [signUp, { loading }] = useMutation(GQL_REGISTER, {
+    onError(err) {
+      renderToast('error', err.message)
+    },
+  })
+
   async function handleRegister(data: {
     email: string
     username: string
     password: string
     passwordConfirmation: string
   }) {
-    console.log('dados ' + JSON.stringify(data, null, 2))
+    await signUp({
+      variables: {
+        registerInput: { email: data.email, password: data.password },
+      },
+    })
+
+    await handleSignIn({ email: data.email, password: data.password })
   }
 
   return (
@@ -132,7 +160,7 @@ export const SignUpForm = (): JSX.Element => {
           </RootInput>
         )}
       />
-      <Button type="submit" className="mt-3">
+      <Button type="submit" className="mt-3" disabled={loading} isLoading={loading}>
         Criar conta
       </Button>
       <Button type="button" btnStyle="secondary" className="mt-3" onClick={back}>
