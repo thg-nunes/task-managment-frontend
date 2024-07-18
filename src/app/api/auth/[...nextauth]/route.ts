@@ -1,4 +1,5 @@
 import NextAuth from 'next-auth'
+import { cookies } from 'next/headers'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
 const handler = NextAuth({
@@ -16,7 +17,7 @@ const handler = NextAuth({
         const { email, password } = req.query as { email: string; password: string }
 
         try {
-          const response = await fetch(`${process.env.API_URI}`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -28,6 +29,8 @@ const handler = NextAuth({
                   login(loginInput: $loginInput) { 
                     id
                     email
+                    token
+                    refresh_token
                   }
                 }`,
               variables: { loginInput: { email, password } },
@@ -37,8 +40,26 @@ const handler = NextAuth({
           if (!response.ok) return null
 
           const { data } = (await response.json()) as {
-            data: { login: { id: string; email: string } }
+            data: {
+              login: { id: string; email: string; token: string; refresh_token: string }
+            }
           }
+
+          cookies().set('token', data.login.token, {
+            httpOnly: true,
+            domain: 'localhost',
+            path: '/',
+            sameSite: 'strict',
+            maxAge: 60 * 60 * 24 * 1, // 1 day
+          })
+
+          cookies().set('refresh_token', data.login.refresh_token, {
+            httpOnly: true,
+            domain: 'localhost',
+            path: '/',
+            sameSite: 'strict',
+            maxAge: 60 * 60 * 24 * 7, // 7 days
+          })
 
           return data.login
         } catch (error) {
