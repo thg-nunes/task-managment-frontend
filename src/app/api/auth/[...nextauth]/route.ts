@@ -2,6 +2,8 @@ import NextAuth from 'next-auth'
 import { cookies } from 'next/headers'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
+import { fetchByQuery } from '@utils/fetch'
+
 const handler = NextAuth({
   pages: {
     signIn: '/login',
@@ -17,14 +19,13 @@ const handler = NextAuth({
         const { email, password } = req.query as { email: string; password: string }
 
         try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              operationName: 'login',
-              query: `
+          const { data } = await fetchByQuery<{
+            data: {
+              login: { id: string; email: string; token: string; refresh_token: string }
+            }
+          }>({
+            operationName: 'login',
+            query: `
                 query login($loginInput: LoginInput!) {
                   login(loginInput: $loginInput) { 
                     id
@@ -33,17 +34,10 @@ const handler = NextAuth({
                     refresh_token
                   }
                 }`,
-              variables: { loginInput: { email, password } },
-            }),
+            variables: { loginInput: { email, password } },
           })
 
-          if (!response.ok) return null
-
-          const { data } = (await response.json()) as {
-            data: {
-              login: { id: string; email: string; token: string; refresh_token: string }
-            }
-          }
+          if (!data) return null
 
           cookies().set('token', data.login.token, {
             httpOnly: true,
