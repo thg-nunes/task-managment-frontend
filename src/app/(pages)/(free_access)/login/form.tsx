@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
+import { handleSignIn } from '@hooks/pages/login'
+
 import { Button } from '@components/button'
 import { Input, Label, RootInput } from '@components/input'
 
@@ -33,24 +35,10 @@ export const SignInForm = (): JSX.Element => {
     },
   })
 
-  async function handleSignIn(data: { email: string; password: string }) {
-    const response = await signIn('credentials', { redirect: false }, { ...data })
-    if (response && response.error) {
-      // exibir toast com causa do erro
-    }
-
-    if (response?.ok && response.status === 200) {
-      // redirecionar para a página home, fazer uma requisição qualquer nessa página para um resolver privado e verificar se vai ser enviado o token e se vai funcionar a verificação de token server
-      // para caso de token expirado, refazer a validação no client
-    }
-    // NO SERVER AO FAZER UMA REQ PRA ROTA PRIVADA, VERIFICAR SE TEM O TOKEN QUE O NEXT-AUTH ENVIA, SE TIVER
-    // LIBERA ACESSO, SE NAO BLOQUEIA ACESSO E RETORNA ERRO
-  }
-
   return (
     <form
       className="grid h-max w-1/2 grid-rows-3 gap-3"
-      onSubmit={handleSubmit(handleSignIn)}
+      onSubmit={handleSubmit((data) => handleSignIn(data, push))}
     >
       <Controller
         name="email"

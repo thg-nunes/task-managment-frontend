@@ -5,12 +5,13 @@ import { useMutation } from '@apollo/client'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
+import { handleSignIn } from '@hooks/pages/login'
+
 import { renderToast } from '@utils/toast'
 import { GQL_REGISTER } from '@graphql/mutations/user'
 
 import { Button } from '@components/button'
 import { Input, Label, RootInput } from '@components/input'
-import { signIn } from 'next-auth/react'
 
 const schema = yup.object().shape({
   username: yup.string().trim().required('O nome de usuário é obrigatório'),
@@ -51,16 +52,6 @@ export const SignUpForm = (): JSX.Element => {
     },
   })
 
-  async function handleSignIn(data: { email: string; password: string }) {
-    const response = await signIn('credentials', { redirect: false }, { ...data })
-    if (response && response.error) {
-      renderToast('error', response.error)
-    }
-
-    if (response?.ok && response.status === 200) {
-      push('/home')
-    }
-  }
 
   const [signUp, { loading }] = useMutation(GQL_REGISTER, {
     onError(err) {
@@ -80,7 +71,7 @@ export const SignUpForm = (): JSX.Element => {
       },
     })
 
-    await handleSignIn({ email: data.email, password: data.password })
+    await handleSignIn({ email: data.email, password: data.password }, push)
   }
 
   return (
