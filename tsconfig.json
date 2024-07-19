@@ -23,6 +23,7 @@
       "@services/*": ["src/services/*"],
       "@providers/*": ["src/providers/*"],
       "@utils/*": ["src/utils/*"],
+      "@hooks/*": ["src/hooks/*"],
       "@graphql/*": ["src/graphql/*"]
     }
   },

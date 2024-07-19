@@ -1,4 +1,7 @@
+import * as yup from 'yup'
 import { signIn } from 'next-auth/react'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 import { renderToast } from '@utils/toast'
 
@@ -25,4 +28,31 @@ const handleSignIn = async (
   }
 }
 
-export { handleSignIn }
+/**
+ * @function useSignInForm - função responsável por conter a config de validação do formulário de login
+ */
+const useSignInForm = () => {
+  const schema = yup.object().shape({
+    email: yup
+      .string()
+      .email('Forneça um e-mail válido')
+      .required('E-mail é obrigatório')
+      .transform((value) => value || ''),
+    password: yup
+      .string()
+      .required('A senha é obrigatória')
+      .transform((value) => value || ''),
+  })
+
+  const { control, handleSubmit } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  })
+
+  return { control, handleSubmit }
+}
+
+export { handleSignIn, useSignInForm }

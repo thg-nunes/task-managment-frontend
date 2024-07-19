@@ -1,39 +1,18 @@
 'use client'
-import * as yup from 'yup'
-import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { Controller, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { Controller } from 'react-hook-form'
 
-import { handleSignIn } from '@hooks/pages/login'
+import { handleSignIn, useSignInForm } from '@hooks/pages/login'
 
 import { Button } from '@components/button'
 import { Input, Label, RootInput } from '@components/input'
-
-const schema = yup.object().shape({
-  email: yup
-    .string()
-    .email('Forneça um e-mail válido')
-    .required('E-mail é obrigatório')
-    .transform((value) => value || ''),
-  password: yup
-    .string()
-    .required('A senha é obrigatória')
-    .transform((value) => value || ''),
-})
 
 /**
  * @function SignInForm - componente responável por conter o formulário de login
  */
 export const SignInForm = (): JSX.Element => {
   const { push } = useRouter()
-  const { control, handleSubmit } = useForm({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      email: '',
-      password: '',
-    },
-  })
+  const { control, handleSubmit } = useSignInForm()
 
   return (
     <form
