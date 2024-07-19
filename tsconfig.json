@@ -19,7 +19,12 @@
       }
     ],
     "paths": {
-      "@/components/*": ["components/*"]
+      "@components/*": ["src/app/components/*"],
+      "@services/*": ["src/services/*"],
+      "@providers/*": ["src/providers/*"],
+      "@utils/*": ["src/utils/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@graphql/*": ["src/graphql/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

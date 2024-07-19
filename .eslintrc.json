@@ -11,7 +11,7 @@
   "plugins": ["react", "@typescript-eslint", "prettier"],
   "ignorePatterns": ["**/*.js"],
   "rules": {
-    "no-undef": "warn",
+    "no-undef": "off",
     "no-useless-catch": "off",
     "react/react-in-jsx-scope": "off",
     "tailwindcss/migration-from-tailwind-2": "off",
