@@ -14,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="pt-BR" className="h-screen w-full bg-gray-900 text-gray-200">
+    <html lang="pt-BR" className="h-screen w-full bg-slate-800 text-gray-200">
       <body className={poppins.className}>
         <SessionContextProvider>
           <ApolloContextProvider>{children}</ApolloContextProvider>
