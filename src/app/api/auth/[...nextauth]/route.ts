@@ -8,6 +8,20 @@ const handler = NextAuth({
   pages: {
     signIn: '/login',
   },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id
+        token.email = user.email
+      }
+      return token
+    },
+    async session({ session, token }) {
+      session.user.id = token.id as string
+      session.user.email = token.email as string
+      return session
+    },
+  },
   providers: [
     CredentialsProvider({
       name: 'Credentials',
