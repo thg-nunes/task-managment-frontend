@@ -46,11 +46,11 @@ export const Box = ({
   boxData,
 }: BoxProps): JSX.Element => {
   return (
-    <div className="relative ml-10 mt-10 grid max-w-96 rounded-md bg-gray-700 p-4">
+    <div className="relative grid min-w-96 max-w-96 rounded-md bg-gray-700 p-4">
       <div className={ICON_CONTAINER_SYTLE[iconBg]}>{<Icon />}</div>
       <div className="mb-3 w-max space-y-1 justify-self-end">
-        <span className="">{title}</span>
-        <h4 className="text-end font-semibold lg:text-2xl">{boxData}</h4>
+        <span className="text-sm">{title}</span>
+        <h4 className="text-end text-xl font-semibold lg:text-2xl">{boxData}</h4>
       </div>
       <span className="mb-3 rounded-full border-t border-white/25" />
       {infoDescription && <p className="text-xs">{infoDescription}</p>}
