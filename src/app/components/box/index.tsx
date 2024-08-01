@@ -57,3 +57,17 @@ export const Box = ({
     </div>
   )
 }
+
+export const BoxSekeleton = ({ iconBg }: Pick<BoxProps, 'iconBg'>): JSX.Element => {
+  return (
+    <div className="relative grid min-w-96 max-w-96 rounded-md bg-gray-700 p-4">
+      <div className={ICON_CONTAINER_SYTLE[iconBg]} />
+      <div className="mb-3 w-1/2 animate-pulse space-y-1 justify-self-end">
+        <span className="block h-3 w-1/2 rounded-sm bg-gray-500" />
+        <h4 className="h-6 w-3/4 rounded-sm bg-gray-500" />
+      </div>
+      <span className="mb-3 rounded-full border-t border-white/25" />
+      <span className="block h-2 w-full animate-pulse rounded-lg bg-gray-500" />
+    </div>
+  )
+}
