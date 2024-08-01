@@ -1,3 +1,9 @@
+import { GeneralTasksInfo } from './generalTasksInfo'
+
 export default function Home() {
-  return <h1>HOME</h1>
+  return (
+    <main>
+      <GeneralTasksInfo />
+    </main>
+  )
 }
