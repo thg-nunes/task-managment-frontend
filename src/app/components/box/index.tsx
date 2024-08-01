@@ -21,12 +21,12 @@ type BoxProps = {
  * ao contaienr do ícone com cor de fundo no tom de violeta
  */
 const ICON_CONTAINER_SYTLE = {
-  cyan: 'absolute ml-4 -mt-4 bg-gradient-to-t rounded-xl from-cyan-600 to-cyan-500 p-5',
-  pink: 'absolute ml-4 -mt-4 bg-gradient-to-t rounded-xl from-pink-600 to-pink-500 p-5',
+  cyan: 'absolute ml-4 -mt-4 bg-gradient-to-t rounded-xl from-cyan-600 to-cyan-500 p-3 md:p-4 lg:p-5',
+  pink: 'absolute ml-4 -mt-4 bg-gradient-to-t rounded-xl from-pink-600 to-pink-500 p-3 md:p-4 lg:p-5',
   green:
-    'absolute ml-4 -mt-4 bg-gradient-to-t rounded-xl from-green-600 to-green-500 p-5',
+    'absolute ml-4 -mt-4 bg-gradient-to-t rounded-xl from-green-600 to-green-500 p-3 md:p-4 lg:p-5',
   violet:
-    'absolute ml-4 -mt-4 bg-gradient-to-t rounded-xl from-violet-600 to-violet-500 p-5',
+    'absolute ml-4 -mt-4 bg-gradient-to-t rounded-xl from-violet-600 to-violet-500 p-3 md:p-4 lg:p-5',
 }
 
 /**
@@ -46,7 +46,7 @@ export const Box = ({
   boxData,
 }: BoxProps): JSX.Element => {
   return (
-    <div className="relative grid min-w-96 max-w-96 rounded-md bg-gray-700 p-4">
+    <div className="relative grid min-w-72 max-w-72 rounded-md bg-gray-700 p-4 md:min-w-80 md:max-w-80">
       <div className={ICON_CONTAINER_SYTLE[iconBg]}>{<Icon />}</div>
       <div className="mb-3 w-max space-y-1 justify-self-end">
         <span className="text-sm">{title}</span>
@@ -54,6 +54,20 @@ export const Box = ({
       </div>
       <span className="mb-3 rounded-full border-t border-white/25" />
       {infoDescription && <p className="text-xs">{infoDescription}</p>}
+    </div>
+  )
+}
+
+export const BoxSekeleton = ({ iconBg }: Pick<BoxProps, 'iconBg'>): JSX.Element => {
+  return (
+    <div className="relative grid min-w-96 max-w-96 rounded-md bg-gray-700 p-4">
+      <div className={ICON_CONTAINER_SYTLE[iconBg]} />
+      <div className="mb-3 w-1/2 animate-pulse space-y-1 justify-self-end">
+        <span className="block h-3 w-1/2 rounded-sm bg-gray-500" />
+        <h4 className="h-6 w-3/4 rounded-sm bg-gray-500" />
+      </div>
+      <span className="mb-3 rounded-full border-t border-white/25" />
+      <span className="block h-2 w-full animate-pulse rounded-lg bg-gray-500" />
     </div>
   )
 }
